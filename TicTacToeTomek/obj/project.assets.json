@@ -7042,10 +7042,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\users\\michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\TicTacToeTomek.csproj",
+      "projectUniqueName": "C:\\Users\\Michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\TicTacToeTomek.csproj",
       "projectName": "TicTacToeTomek",
-      "projectPath": "c:\\users\\michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\TicTacToeTomek.csproj",
-      "outputPath": "c:\\users\\michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\obj\\",
+      "projectPath": "C:\\Users\\Michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\TicTacToeTomek.csproj",
+      "outputPath": "C:\\Users\\Michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"

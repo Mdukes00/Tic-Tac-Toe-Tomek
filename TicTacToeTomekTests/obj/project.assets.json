@@ -8510,10 +8510,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\users\\michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomekTests\\TicTacToeTomekTests.csproj",
+      "projectUniqueName": "C:\\Users\\Michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomekTests\\TicTacToeTomekTests.csproj",
       "projectName": "TicTacToeTomekTests",
-      "projectPath": "c:\\users\\michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomekTests\\TicTacToeTomekTests.csproj",
-      "outputPath": "c:\\users\\michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomekTests\\obj\\",
+      "projectPath": "C:\\Users\\Michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomekTests\\TicTacToeTomekTests.csproj",
+      "outputPath": "C:\\Users\\Michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomekTests\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
@@ -8521,8 +8521,8 @@
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {
-            "c:\\users\\michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\TicTacToeTomek.csproj": {
-              "projectPath": "c:\\users\\michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\TicTacToeTomek.csproj"
+            "C:\\Users\\Michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\TicTacToeTomek.csproj": {
+              "projectPath": "C:\\Users\\Michael\\documents\\visual studio 2017\\Projects\\TicTacToeTomek\\TicTacToeTomek\\TicTacToeTomek.csproj"
             }
           }
         }
