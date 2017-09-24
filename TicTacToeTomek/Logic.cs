@@ -1,56 +1,141 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Linq;
 
 namespace TicTacToeTomek
 {
-    public class Logic
+    public class Logic : ILogic
     {
-        const int MATRIX_ROWS = 4;
-        const int MATRIX_COLUMNS = 4;
+        private const int BOARD_ROWS = 4;
+        private const int BOARD_COLUMNS = 4;
+        string[,] board = new string[BOARD_ROWS, BOARD_COLUMNS];
+        private string currentPlayer = "X";
 
-        public string[,] GetBoard()
-        {
-            string[,] matrix = new string[MATRIX_ROWS, MATRIX_COLUMNS];
-            matrix = SetDots(matrix);
-            matrix = setT(matrix);
-            return matrix;
-        }
-
-        public string[,] SetDots(string[,] matrix)
+        public void SetDots()
         {
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
-                    matrix.SetValue(".", i, j);
-
+                    board.SetValue(".", i, j);
             }
-            return matrix;
+
         }
-        public bool switchCurrentPlayer(bool currentPlayer)
+        public void switchCurrentPlayer()
         {
-            if (currentPlayer == true)
+            if (currentPlayer == "X")
             {
-                return false;
+
+                currentPlayer = "O";
             }
             else
-                return true;
+                currentPlayer = "X";
         }
 
-        public string[,] setT(string[,] matrix)
+        public void setT()
         {
             Random rnd = new Random();
-            int row = rnd.Next(0, MATRIX_ROWS - 1);
-            int column = rnd.Next(0, MATRIX_COLUMNS - 1);
-            matrix.SetValue("T", row, column);
+            if (rnd.Next(0, 2) == 0)
+            {
+                Random rndT = new Random();
+                int row = rndT.Next(0, BOARD_ROWS - 1);
+                int column = rndT.Next(0, BOARD_COLUMNS - 1);
+                board.SetValue("T", row, column);
 
-            return matrix;
+            }
+
         }
 
+        public void playGame()
+        {
+            bool isGameFinished = false;
+            SetDots();
+            setT();
+            while (!isGameFinished)
+            {
 
-        public int checkForWin(string[,] board)
+                showBoard();
+                setMark();
+                switch (checkForWin())
+                {
+                    case 1:
+                        isGameFinished = true;
+                        Console.WriteLine("X won");
+                        break;
+                    case 2:
+                        isGameFinished = true;
+                        Console.WriteLine("O won");
+                        break;
+                    case 3:
+                        isGameFinished = true;
+                        Console.WriteLine("Draw");
+                        break;
+                    default:
+                        switchCurrentPlayer();
+                        Console.WriteLine("Player " + currentPlayer + "'s turn");
+                        break;
+                }
+            }
+        }
+
+        private void showBoard()
+        {
+            string printBoard = "";
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    printBoard = printBoard + board.GetValue(i, j).ToString();
+                }
+            }
+      
+            for(int i =0; i <16; i=i+4)
+            {
+                Console.WriteLine(printBoard[i].ToString() + printBoard[i + 1].ToString() + printBoard[i + 2].ToString() + printBoard[i + 3].ToString());
+
+            }
+
+        }
+        private void setMark()
+        {
+            bool correctInput = false;
+            int row = 5;
+            int column = 5;
+            while (!correctInput)
+            {
+                Console.WriteLine("enter row number 0 to 3");
+                row = int.Parse(Console.ReadLine().ToString());
+                Console.WriteLine("enter column number 0 to 3");
+                column = int.Parse(Console.ReadLine().ToString());
+
+                if (row >= 0 && row <= 3)
+                {
+                    if (column >= 0 && column <= 3)
+                    {
+                        correctInput = isEmpty(row, column);
+                    }
+                }
+                if (!correctInput)
+                {
+                    Console.WriteLine("incorrect input. Please try again");
+                    showBoard();
+                }
+
+            }
+            board.SetValue(currentPlayer, row, column);
+        }
+
+        private bool isEmpty(int row, int column)
+        {
+            string value = board.GetValue(row, column).ToString();
+            if (value == ".")
+            {
+                return true;
+            }
+            return false;
+
+        }
+
+        public int checkForWin()
         {
             List<int> listOfScores = convertToScore(board);
 
@@ -60,24 +145,23 @@ namespace TicTacToeTomek
             {
                 if (winningConditionsList[i] == 4 || winningConditionsList[i] == 103)
                 {
+                    //X wins
                     return 1;
                 }
                 if (winningConditionsList[i] == 20 || winningConditionsList[i] == 115)
                 {
+                    //O wins
                     return 2;
                 }
 
             }
             if (winningConditionsList.Last() == 143)
             {
+                //No one wins
                 return 3;
             }
-            if (winningConditionsList.Last() == 0)
-            {
-                return 4;
-            }
-
-            return 0;
+            //Not finish
+            return 4;
 
         }
 
@@ -97,7 +181,7 @@ namespace TicTacToeTomek
             //diagional wins
             winningConditionsList.Add(listOfScores[0] + listOfScores[5] + listOfScores[10] + listOfScores[15]);
             winningConditionsList.Add(listOfScores[12] + listOfScores[9] + listOfScores[6] + listOfScores[3]);
-            //board is full or empty
+            //board is full
             winningConditionsList.Add(listOfScores.Sum(item => item));
 
             return winningConditionsList;
@@ -122,16 +206,35 @@ namespace TicTacToeTomek
 
             for (int i = 0; i < numberOfTestCases; i++)
             {
-                List<string> rowList;
-                string[,] board;
-                createListOfRows(stringToChar, testCaseIndex, out rowList, out board);
-                fillBoardWithMarks(rowList, board);
-                int winner = checkForWin(board);
+                List<string> rowList = createListOfRows(stringToChar, testCaseIndex);
+                fillBoardWithMarks(rowList);
+                List<string> listOfCases = new List<string>();
+                switch (checkForWin())
+                {
+                    case 1:
+                        listOfCases.Add("Case #" + (i + 1) + ": X won");
+                        break;
+                    case 2:
+                        Console.WriteLine("Case #" + (i + 1) + ": O won");
+                        break;
+                    case 3:
+                        Console.WriteLine("Case #" + (i + 1) + ": Draw");
+                        break;
+                    case 4:
+                        Console.WriteLine("Case #" + (i + 1) + ": Game has not completed");
+                        break;
+                    default:
+                        Console.WriteLine("Error");
+                        break;
+                }
                 testCaseIndex = testCaseIndex + 5;
+
+
+
             }
         }
 
-        private static void fillBoardWithMarks(List<string> rowList, string[,] board)
+        public void fillBoardWithMarks(List<string> rowList)
         {
             for (int row = 0; row < 4; row++)
             {
@@ -144,14 +247,14 @@ namespace TicTacToeTomek
             }
         }
 
-        private static void createListOfRows(string[] stringToCharArray, int testCaseIndex, out List<string> rowList, out string[,] board)
+        public List<string> createListOfRows(string[] stringToCharArray, int testCaseIndex)
         {
-            rowList = new List<string>();
-            board = new string[MATRIX_ROWS, MATRIX_COLUMNS];
+            List<string> rowList = new List<string>();
             rowList.Add(stringToCharArray.GetValue(testCaseIndex + 1).ToString());
             rowList.Add(stringToCharArray.GetValue(testCaseIndex + 2).ToString());
             rowList.Add(stringToCharArray.GetValue(testCaseIndex + 3).ToString());
             rowList.Add(stringToCharArray.GetValue(testCaseIndex + 4).ToString());
+            return rowList;
         }
 
         public List<int> convertToScore(string[,] board)
@@ -180,7 +283,6 @@ namespace TicTacToeTomek
                 }
             }
             return convertToScoreList;
-
 
         }
     }

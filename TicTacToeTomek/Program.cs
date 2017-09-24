@@ -10,19 +10,13 @@ namespace TicTacToeTomek
 
         static void Main(string[] args)
         {
-            string text = System.IO.File.ReadAllText(@"C:\Users\Public\TestFolder\A-small-practice.in");
-           
-            Console.WriteLine("Contents of WriteText.txt = {0}", text);
-
-            Console.ReadKey();
-
             while (!correctChoice)
             {
                 Console.WriteLine("Do you wish to play or read from a file.");
                 Console.WriteLine("Enter 1 and press ENTER for reading from a file : C:/Users/Public/TestFolder/A-small-practice.in");
                 Console.WriteLine("Enter 2 and Press ENTER for playing the game");
                 answer = Console.ReadLine().ToString();
-                if(answer == "1" || answer == "2")
+                if (answer == "1" || answer == "2")
                 {
                     correctChoice = true;
                 }
@@ -34,16 +28,27 @@ namespace TicTacToeTomek
 
             if (answer == "1")
             {
-              
-                
+
+                logic.readFromTestFile("C:/Users/Public/TestFolder/A-large-practice.in");
+                Console.ReadKey();
 
             }
             else if (answer == "2")
             {
-                string[,] board = logic.GetBoard();
+                bool playAgain = true;
+
+                while (playAgain)
+                {
+
+                    logic.playGame();
+                    Console.WriteLine("Do you wish to play again? enter 2 to play again and 1 to quit");
+                    answer = Console.ReadLine().ToString();
+                    if (answer == "1")
+                    {
+                        playAgain = false;
+                    }
+                }
             }
-
-
         }
     }
 }
