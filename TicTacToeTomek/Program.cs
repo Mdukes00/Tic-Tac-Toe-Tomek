@@ -4,7 +4,7 @@ namespace TicTacToeTomek
 {
     class Program
     {
-        static Logic logic = new Logic();
+        static ILogic logic = new Logic();
         static string answer;
         static bool correctChoice = false;
 
@@ -29,7 +29,7 @@ namespace TicTacToeTomek
             if (answer == "1")
             {
 
-                logic.readFromTestFile("C:/Users/Public/TestFolder/A-large-practice.in");
+                logic.readFromTestFile("C:/Users/Public/TestFolder/A-Large-practice.in");
                 Console.ReadKey();
 
             }

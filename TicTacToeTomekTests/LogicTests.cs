@@ -10,74 +10,102 @@ namespace TicTacToeTomekTests
     {
         const int MATRIX_ROWS = 4;
         const int MATRIX_COLUMNS = 4;
-        Logic logic = new Logic();
+        ILogic logic = new Logic();
+
 
         [TestMethod]
-        public void SwitchPlayer_switchesPlayer_true()
+        public void checkForWin_wincase1_xwins()
         {
             //setup
-            bool currentPlayer = true;
+            int expected = 1;
+            string[,] board = logic.getBoard();
+            string xWins = "1\nTXOX\nXOXO\nXOXO\nX...";
+            string[] stringToChar = logic.stringToCharArray(xWins);
+            int testCaseIndex = 0;
+            List<string> rowList = logic.createListOfRows(stringToChar, testCaseIndex);
+            string[,] activeBoard = logic.fillBoardWithMarks(rowList);
 
             //act
-            currentPlayer = logic.switchCurrentPlayer(currentPlayer);
-            currentPlayer = logic.switchCurrentPlayer(currentPlayer);
-            currentPlayer = logic.switchCurrentPlayer(currentPlayer);
+            int actual = logic.checkForWin(activeBoard);
 
             //assert
-            Assert.AreEqual(false, currentPlayer);
+            Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void GetBoard_setsARandomTinTheMatrix_True()
-        {
-            string[,] emptyMatrix = new string[MATRIX_ROWS, MATRIX_COLUMNS];
-            int numberOfT = 0;
-
-            //act
-            emptyMatrix = logic.SetDots(emptyMatrix);
-            emptyMatrix = logic.setT(emptyMatrix);
-
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (emptyMatrix.GetValue(i, j).ToString() == "T")
-                    {
-                        numberOfT++;
-                    }
-                }
-            }
-
-            //assert
-            Assert.AreEqual(1, numberOfT);
-        }
 
         [TestMethod]
-        public void setDots_setMatrixToStart_True()
+        public void checkForWin_wincase2_Owins()
         {
             //setup
-            string[,] emptyMatrix = new string[MATRIX_ROWS, MATRIX_COLUMNS];
-            int numberOfDots = 0;
+            int expected = 2;
+            string[,] board = logic.getBoard();
+            string xWins = "1\nTOOO\nXOXX\nOXOX\nX..X";
+            string[] stringToChar = logic.stringToCharArray(xWins);
+            int testCaseIndex = 0;
+            List<string> rowList = logic.createListOfRows(stringToChar, testCaseIndex);
+            string[,] activeBoard = logic.fillBoardWithMarks(rowList);
 
             //act
-            emptyMatrix = logic.SetDots(emptyMatrix);
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (emptyMatrix.GetValue(i, j).ToString() == ".")
-                    {
-                        numberOfDots++;
-                    }
-                }
-            }
+            int actual = logic.checkForWin(activeBoard);
 
             //assert
-            Assert.AreEqual(16, numberOfDots);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void readFromFile()
+        public void checkForWin_wincase3_draw()
+        {
+            //setup
+            int expected = 3;
+            string[,] board = logic.getBoard();
+            string xWins = "1\nTXOX\nOXOX\nOXOX\nXOXO";
+            string[] stringToChar = logic.stringToCharArray(xWins);
+            int testCaseIndex = 0;
+            List<string> rowList = logic.createListOfRows(stringToChar, testCaseIndex);
+            string[,] activeBoard = logic.fillBoardWithMarks(rowList);
+
+            //act
+            int actual = logic.checkForWin(activeBoard);
+
+            //assert
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void checkForWin_wincase4_stillplaying()
+        {
+            //setup
+            int expected = 4;
+            string[,] board = logic.getBoard();
+            string xWins = "1\nT...\n....\n....\nXOXO";
+            string[] stringToChar = logic.stringToCharArray(xWins);
+            int testCaseIndex = 0;
+            List<string> rowList = logic.createListOfRows(stringToChar, testCaseIndex);
+            string[,] activeBoard = logic.fillBoardWithMarks(rowList);
+
+            //act
+            int actual = logic.checkForWin(activeBoard);
+
+            //assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void switchCurrentPlayer_switchesPlayer_O()
+        {
+            //setup
+            string currentPlayer = "X";
+
+            //act
+            currentPlayer = logic.switchCurrentPlayer();
+            currentPlayer = logic.switchCurrentPlayer();
+            currentPlayer = logic.switchCurrentPlayer();
+
+            //assert
+            Assert.AreEqual("O", currentPlayer);
+        }
+
+        [TestMethod]
+        public void readFromFile_readstestfromfile_correct()
         {
 
             //setup
@@ -86,12 +114,8 @@ namespace TicTacToeTomekTests
             //act
             fileToString = logic.readFromFile("C:/Users/Public/TestFolder/test.txt");
 
+            //assert
             Assert.AreEqual("test", fileToString);
-
-
-
-
-
 
         }
 
